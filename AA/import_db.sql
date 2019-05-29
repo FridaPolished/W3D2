@@ -3,7 +3,7 @@ PRAGMA foreign_keys = ON;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS questions;
 DROP TABLE IF EXISTS questions_follows;
-DROP TABLE IF EXISTS question_likes;
+DROP TABLE IF EXISTS likes;
 DROP TABLE IF EXISTS replies;
 
 CREATE TABLE users (
@@ -42,14 +42,14 @@ CREATE TABLE replies (
   FOREIGN KEY (original_author_id) REFERENCES users(id)
 );
 
-CREATE TABLE question_likes (
+CREATE TABLE likes (
   id INTEGER PRIMARY KEY,
   likes INTEGER,
-  question_likes_user_id INTEGER ,
-  question_likes_question_id INTEGER,
+  likes_user_id INTEGER NOT NULL,
+  likes_question_id INTEGER NOT NULL,
 
-  FOREIGN KEY (question_likes_user_id) REFERENCES users(id),
-  FOREIGN KEY (question_likes_question_id) REFERENCES questions(id)
+  FOREIGN KEY (likes_user_id) REFERENCES users(id),
+  FOREIGN KEY (likes_question_id) REFERENCES questions(id)
 ); 
 
 INSERT INTO
@@ -66,9 +66,16 @@ VALUES
   ('Mary question', 'MaryMary', 2),
   ('Wayne question', 'WayneWayne', 3);
 
-  -- INSERT INTO
-  --   replies (body, )
-  -- VALUES
-  --   ('J. answer'),
-  --   ('M answer'),
-  --   ('W. answer');
+INSERT INTO
+  replies (body, subject_question_id)
+VALUES
+  ('John answer', 1),
+  ('Mary answer', 2),
+  ('Wayne answer', 3);
+
+INSERT INTO
+  likes (likes, likes_question_id, likes_user_id)
+VALUES
+  (10, 2, 3),
+  (20, 3, 5),
+  (100, 3, 8);
